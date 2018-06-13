@@ -15,6 +15,7 @@
   "author": "Jian Jiang <jian0307@icloud.com>",
   "license": "MIT",
   "dependencies": {
+    "async": "^2.6.1",
     "node-cron": "^1.2.1",
     "redis": "^2.8.0"
   },
