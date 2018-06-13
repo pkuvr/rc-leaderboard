@@ -1,0 +1,29 @@
+{
+  "name": "easy-leaderboard",
+  "version": "0.0.1",
+  "description": "easy-leaderboard is a light weight leaderboard backed by redis for node.js.",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
+  },
+  "keywords": [
+    "leaderboard",
+    "scoreboard",
+    "rank",
+    "redis"
+  ],
+  "author": "Jian Jiang <jian0307@icloud.com>",
+  "license": "MIT",
+  "dependencies": {
+    "node-cron": "^1.2.1",
+    "redis": "^2.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jianzi0307/easy-leaderboard.git"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0"
+  }
+}
