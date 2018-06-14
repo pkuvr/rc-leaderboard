@@ -12,7 +12,7 @@
     "rank",
     "redis"
   ],
-  "author": "Jian Jiang <jian0307@icloud.com>",
+  "author": "Jian Jiang <jianzi0307@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "async": "^2.6.1",
