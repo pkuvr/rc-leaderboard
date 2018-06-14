@@ -1,4 +1,4 @@
-# easy-leaderboard
+# rc-leaderboard
 
-easy-leaderboard is a light weight leaderboard backed by redis for node.js.
+rc-leaderboard is a light weight leaderboard backed by redis for node.js.
 

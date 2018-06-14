@@ -17,12 +17,12 @@ let clearPeriodLeaderBoard = (pattern, period) => {
   }).bind(this);
 };
 
-let EasyLeaderBoard = (host, port, options) => {
+let RcLeaderBoard = function (host, port, options) {
   this.lb = new LeaderBoard();
   this.lb.createClient(host, port, options);
 };
 
-let p = EasyLeaderBoard.prototype;
+let p = RcLeaderBoard.prototype;
 
 /**
  * 新增一个实体
@@ -219,4 +219,4 @@ p.removeLeaderboards = (options) => {
 };
 
 
-module.exports = EasyLeaderBoard;
+module.exports = RcLeaderBoard;

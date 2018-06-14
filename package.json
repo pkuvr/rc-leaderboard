@@ -1,7 +1,7 @@
 {
-  "name": "easy-leaderboard",
+  "name": "rc-leaderboard",
   "version": "0.0.2",
-  "description": "easy-leaderboard is a light weight leaderboard backed by redis for node.js.",
+  "description": "rc-leaderboard is a light weight leaderboard backed by redis for node.js.",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha"
