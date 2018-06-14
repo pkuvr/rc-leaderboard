@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jianzi0307/easy-leaderboard.git"
+    "url": "https://github.com/jianzi0307/rc-leaderboard.git"
   },
   "devDependencies": {
     "chai": "^4.1.2",
