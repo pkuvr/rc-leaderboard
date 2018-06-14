@@ -1,6 +1,6 @@
 {
   "name": "easy-leaderboard",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "easy-leaderboard is a light weight leaderboard backed by redis for node.js.",
   "main": "index.js",
   "scripts": {
