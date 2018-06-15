@@ -3,6 +3,14 @@
 const LeaderBoard = require('./lib/leaderboard'),
   cron = require('node-cron');
 
+function RcLeaderBoard(host, port, options) {
+  options = options || null;
+  this.lb = new LeaderBoard();
+  this.lb.createClient(host, port, options);
+}
+
+let p = RcLeaderBoard.prototype;
+
 /**
  * 清除周期性排行榜
  * @param pattern
@@ -10,19 +18,14 @@ const LeaderBoard = require('./lib/leaderboard'),
  * @returns {function(this:T)}
  */
 let clearPeriodLeaderBoard = (pattern, period) => {
+  let self = this;
   return cron.schedule(pattern, function () {
-    this.lb.clearPeriodLeaderBoard(period, (err, res) => {
+    self.lb.clearPeriodLeaderBoard(period, (err, res) => {
       console.debug('clear period leaderboards.');
     })
   }).bind(this);
 };
 
-let RcLeaderBoard = function (host, port, options) {
-  this.lb = new LeaderBoard();
-  this.lb.createClient(host, port, options);
-};
-
-let p = RcLeaderBoard.prototype;
 
 /**
  * 新增一个实体
@@ -41,7 +44,6 @@ p.add = (entity, callback, options) => {
 
   options = options || {};
   options.group = options.group || 'default';
-  options.op = options.op || 'bestScore';
   this.lb.add(entity, callback, options);
 };
 
