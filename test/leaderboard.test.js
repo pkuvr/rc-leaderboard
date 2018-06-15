@@ -1,3 +1,5 @@
+'use strict';
+
 let leaderboard = require('../lib/leaderboard');
 let chai = require('chai');
 let assert = require('chai').assert;

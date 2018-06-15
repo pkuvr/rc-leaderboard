@@ -1,17 +1,13 @@
 'use strict';
 
-const LeaderBoard = require('./lib/leaderboard'),
-  cron = require('node-cron');
+const LeaderBoard = require('./lib/leaderboard');
+const cron = require('node-cron');
 
-function RcLeaderBoard(host, port, options) {
-  options = options || null;
-  this.lb = new LeaderBoard();
-  this.lb.createClient(host, port, options);
-}
-
-let p = RcLeaderBoard.prototype;
+let RcLeaderBoard = function () {
+};
 
 /**
+ * [private]
  * 清除周期性排行榜
  * @param pattern
  * @param period
@@ -23,9 +19,14 @@ let clearPeriodLeaderBoard = (pattern, period) => {
     self.lb.clearPeriodLeaderBoard(period, (err, res) => {
       console.debug('clear period leaderboards.');
     })
-  }).bind(this);
+  }.bind(this));
 };
 
+RcLeaderBoard.prototype.createClient = (host, port, options) => {
+  options = options || null;
+  this.lb = new LeaderBoard();
+  this.lb.createClient(host, port, options);
+};
 
 /**
  * 新增一个实体
@@ -33,7 +34,7 @@ let clearPeriodLeaderBoard = (pattern, period) => {
  * @param callback
  * @param options
  */
-p.add = (entity, callback, options) => {
+RcLeaderBoard.prototype.add = (entity, callback, options) => {
   entity = entity || {};
   if (!entity.userId || !entity.attrName) {
     callback('parameter error.');
@@ -47,29 +48,29 @@ p.add = (entity, callback, options) => {
   this.lb.add(entity, callback, options);
 };
 
-p.activePeriods = (options) => {
+RcLeaderBoard.prototype.activePeriods = (options) => {
   options = options || {};
   let daily = options.daily || false,
     weekly = options.weekly || false,
     monthly = options.monthly || false,
     yearly = options.yearly || false;
   if (daily) {
-    this.dailyTask = clearPeriodLeaderBoard(this, '0 0 * * *');
+    this.dailyTask = clearPeriodLeaderBoard.call(this, '0 0 * * *');
     this.lb.activePeriod('daily');
   }
 
   if (weekly) {
-    this.weeklyTask = clearPeriodLeaderBoard(this, '0 0 * * 0');
+    this.weeklyTask = clearPeriodLeaderBoard.call(this, '0 0 * * 0');
     this.lb.activePeriod('weekly');
   }
 
   if (monthly) {
-    this.monthlyTask = clearPeriodLeaderBoard(this, '0 0 1 * *');
+    this.monthlyTask = clearPeriodLeaderBoard.call(this, '0 0 1 * *');
     this.lb.activePeriod('monthly');
   }
 
   if (yearly) {
-    this.yearlyTask = clearPeriodLeaderBoard(this, ' 0 0 1 1 *');
+    this.yearlyTask = clearPeriodLeaderBoard.call(this, ' 0 0 1 1 *');
     this.lb.activePeriod('yearly');
   }
 };
@@ -79,7 +80,7 @@ p.activePeriods = (options) => {
  * @param callback
  * @param options
  */
-p.getLeaderboard = (callback, options) => {
+RcLeaderBoard.prototype.getLeaderboard = (callback, options) => {
   options = options || {};
   let group = options.group || 'default',
     period = options.period || 'alltime',
@@ -90,7 +91,7 @@ p.getLeaderboard = (callback, options) => {
     callback('params error.');
     return;
   }
-  this.ld.getLeaderboard(group, period, attrName, from, to, callback);
+  this.lb.getLeaderboard(group, period, attrName, from, to, callback);
 };
 
 /**
@@ -99,7 +100,7 @@ p.getLeaderboard = (callback, options) => {
  * @param callback
  * @param options
  */
-p.getTop = (top, callback, options) => {
+RcLeaderBoard.prototype.getTop = (top, callback, options) => {
   options = options || {};
   let group = options.group || 'default',
     period = options.period || 'alltime',
@@ -108,7 +109,7 @@ p.getTop = (top, callback, options) => {
     callback('params error.');
     return;
   }
-  this.ld.getLeaderboard(group, period, attrName, 1, top, callback);
+  this.lb.getLeaderboard(group, period, attrName, 1, top, callback);
 };
 
 /**
@@ -117,7 +118,7 @@ p.getTop = (top, callback, options) => {
  * @param callback
  * @param options
  */
-p.getAroundUserLeaderboard = (userId, callback, options) => {
+RcLeaderBoard.prototype.getAroundUserLeaderboard = (userId, callback, options) => {
   options = options || {};
   let group = options.group || 'default',
     period = options.period || 'alltime',
@@ -127,7 +128,7 @@ p.getAroundUserLeaderboard = (userId, callback, options) => {
     callback('params error.');
     return;
   }
-  this.ld.getAroundUserLeaderboard(group, period, userId, attrName, range, callback);
+  this.lb.getAroundUserLeaderboard(group, period, userId, attrName, range, callback);
 };
 
 
@@ -138,7 +139,7 @@ p.getAroundUserLeaderboard = (userId, callback, options) => {
  * @param options
  * @param filterOptions
  */
-p.getBestScore = (userId, callback, options, filterOptions) => {
+RcLeaderBoard.prototype.getBestScore = (userId, callback, options, filterOptions) => {
   options = options || {};
   let group = options.group || 'default',
     period = options.period || 'alltime',
@@ -147,7 +148,7 @@ p.getBestScore = (userId, callback, options, filterOptions) => {
     callback('params error.');
     return;
   }
-  this.ld.getUserBestScore(group, period, userId, attrName, callback, filterOptions);
+  this.lb.getUserBestScore(group, period, userId, attrName, callback, filterOptions);
 };
 
 /**
@@ -156,7 +157,7 @@ p.getBestScore = (userId, callback, options, filterOptions) => {
  * @param callback
  * @param options
  */
-p.getTotalScore = (userId, callback, options) => {
+RcLeaderBoard.prototype.getTotalScore = (userId, callback, options) => {
   options = options || {};
   let group = options.group || 'default',
     period = options.period || 'alltime',
@@ -165,7 +166,7 @@ p.getTotalScore = (userId, callback, options) => {
     callback('params error.');
     return;
   }
-  this.ld.getUserTotalScore(group, period, userId, attrName, callback);
+  this.lb.getUserTotalScore(group, period, userId, attrName, callback);
 };
 
 /**
@@ -174,7 +175,7 @@ p.getTotalScore = (userId, callback, options) => {
  * @param callback
  * @param options
  */
-p.getRank = (userId, callback, options) => {
+RcLeaderBoard.prototype.getRank = (userId, callback, options) => {
   options = options || {};
   let group = options.group || 'default',
     period = options.period || 'alltime',
@@ -183,14 +184,14 @@ p.getRank = (userId, callback, options) => {
     callback('params error.');
     return;
   }
-  this.ld.getRank(group, period, userId, attrName, callback);
+  this.lb.getRank(group, period, userId, attrName, callback);
 };
 
-p.flushAll = () => {
-  this.ld.flushAll();
+RcLeaderBoard.prototype.flushAll = () => {
+  this.lb.flushAll();
 };
 
-p.removeLeaderboards = (options) => {
+RcLeaderBoard.prototype.removeLeaderboards = (options) => {
   options = options || {};
   let
     group = options.group || 'default',
@@ -201,24 +202,23 @@ p.removeLeaderboards = (options) => {
 
   if (daily && !!this.dailyTask) {
     this.dailyTask.destroy();
-    this.ld.clearPeriodLeaderBoard(group, 'daily');
+    this.lb.clearPeriodLeaderBoard(group, 'daily');
   }
 
   if (weekly && !!this.weeklyTask) {
     this.weeklyTask.destroy();
-    this.ld.clearPeriodLeaderBoard(group, 'weekly');
+    this.lb.clearPeriodLeaderBoard(group, 'weekly');
   }
 
   if (monthly && !!this.monthlyTask) {
     this.monthlyTask.destroy();
-    this.ld.clearPeriodLeaderBoard(group, 'monthly');
+    this.lb.clearPeriodLeaderBoard(group, 'monthly');
   }
 
   if (yearly && !!this.yearlyTask) {
     this.yearlyTask.destroy();
-    this.ld.clearPeriodLeaderBoard(group, 'yearly');
+    this.lb.clearPeriodLeaderBoard(group, 'yearly');
   }
 };
-
 
 module.exports = RcLeaderBoard;
