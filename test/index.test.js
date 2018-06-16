@@ -5,7 +5,7 @@ let RcLeaderBoard = require('../index');
 let assert = require('chai').assert;
 
 describe('index', function () {
-  let lb = new RcLeaderBoard('localhost', 63790);
+  let lb = new RcLeaderBoard('127.0.0.1', 6379);
 
   beforeEach(function (done) {
     this.timeout(3000);
