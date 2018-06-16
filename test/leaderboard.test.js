@@ -167,8 +167,8 @@ describe('leaderboard', function () {
    * 清除周期性数据测试
    */
   it('#clearPeriodLeaderboard() highScore', function (done) {
-    this.timeout(4000);
-    setTimeout(done, 3000);
+    this.timeout(3000);
+    setTimeout(done, 1000);
     lb.getUserBestScore('default', 'daily', '1', 'cal', (err, bestScore) => {
       assert.equal(30, bestScore);
     });
