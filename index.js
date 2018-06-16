@@ -30,13 +30,13 @@ class RcLeaderBoard {
   /**
    * 新增一个实体
    * @param entity
-   * @param callback
    * @param options
    */
-  add(entity, callback, options) {
+  add(entity, options) {
     entity = entity || {};
     if (!entity.userId || !entity.attrName) {
-      callback('parameter error.');
+      console.log('parameter error.');
+      return;
     }
     entity.createdAt = entity.createdAt || new Date().toString();
     entity.score = entity.score || 0;
@@ -44,7 +44,7 @@ class RcLeaderBoard {
 
     options = options || {};
     options.group = options.group || 'default';
-    this.lb.add(entity, callback, options);
+    this.lb.add(entity, options);
   }
 
   activePeriods(options) {
