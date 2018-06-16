@@ -6,7 +6,7 @@ install:
 services:
   - redis-server
 script:
-  - travis_wait 3 npm run test
+  - travis_wait 3 npm run test --exit
 branches:
   only:
   - master
