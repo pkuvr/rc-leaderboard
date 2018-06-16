@@ -5,7 +5,8 @@ install:
   - npm install
 services:
   - redis-server
-script: "npm run test"
+script:
+  - travis_wait 1 npm run test
 branches:
   only:
   - master
