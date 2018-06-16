@@ -13,13 +13,14 @@ class RcLeaderBoard {
      * [private]
      * 清除周期性排行榜
      * @param pattern
+     * @param group
      * @param period
-     * @returns {function(this:T)}
+     * @returns {*}
      */
-    this.clearPeriodLeaderBoard = (pattern, period) => {
+    this.clearPeriodLeaderBoard = (pattern, group, period) => {
       let self = this;
       return cron.schedule(pattern, function () {
-        self.lb.clearPeriodLeaderBoard(period, (err, res) => {
+        self.lb.clearPeriodLeaderBoard(group, period, (err, res) => {
           console.debug('clear period leaderboards.');
         })
       }.bind(this));
@@ -48,27 +49,28 @@ class RcLeaderBoard {
 
   activePeriods(options) {
     options = options || {};
-    let daily = options.daily || false,
+    let group = options.group || 'default',
+      daily = options.daily || false,
       weekly = options.weekly || false,
       monthly = options.monthly || false,
       yearly = options.yearly || false;
     if (daily) {
-      this.dailyTask = this.clearPeriodLeaderBoard.call(this, '0 0 * * *');
+      this.dailyTask = this.clearPeriodLeaderBoard.call(this, '0 0 * * *', group, 'daily');
       this.lb.activePeriod('daily');
     }
 
     if (weekly) {
-      this.weeklyTask = this.clearPeriodLeaderBoard.call(this, '0 0 * * 0');
+      this.weeklyTask = this.clearPeriodLeaderBoard.call(this, '0 0 * * 0', group, 'weekly');
       this.lb.activePeriod('weekly');
     }
 
     if (monthly) {
-      this.monthlyTask = this.clearPeriodLeaderBoard.call(this, '0 0 1 * *');
+      this.monthlyTask = this.clearPeriodLeaderBoard.call(this, '0 0 1 * *', group, 'monthly');
       this.lb.activePeriod('monthly');
     }
 
     if (yearly) {
-      this.yearlyTask = this.clearPeriodLeaderBoard.call(this, ' 0 0 1 1 *');
+      this.yearlyTask = this.clearPeriodLeaderBoard.call(this, ' 0 0 1 1 *', group, 'yearly');
       this.lb.activePeriod('yearly');
     }
   }
@@ -83,13 +85,14 @@ class RcLeaderBoard {
     let group = options.group || 'default',
       period = options.period || 'alltime',
       attrName = options.attrName || null,
+      scoreType = options.scoreType || 'best',
       from = options.from || 0,
       to = options.to || -1;
     if (!attrName) {
       callback('params error.');
       return;
     }
-    this.lb.getLeaderboard(group, period, attrName, from, to, callback);
+    this.lb.getLeaderboard(group, period, attrName, scoreType, from, to, callback);
   }
 
   /**
@@ -102,12 +105,13 @@ class RcLeaderBoard {
     options = options || {};
     let group = options.group || 'default',
       period = options.period || 'alltime',
-      attrName = options.attrName || null;
+      attrName = options.attrName || null,
+      scoreType = options.scoreType || 'best';
     if (!attrName) {
       callback('params error.');
       return;
     }
-    this.lb.getLeaderboard(group, period, attrName, 1, top, callback);
+    this.lb.getLeaderboard(group, period, attrName, scoreType, 1, top, callback);
   }
 
   /**
@@ -121,12 +125,13 @@ class RcLeaderBoard {
     let group = options.group || 'default',
       period = options.period || 'alltime',
       attrName = options.attrName || null,
+      scoreType = options.scoreType || 'best',
       range = options.range || 10;
     if (!userId || !attrName) {
       callback('params error.');
       return;
     }
-    this.lb.getAroundUserLeaderboard(group, period, userId, attrName, range, callback);
+    this.lb.getAroundUserLeaderboard(group, period, userId, attrName, scoreType, range, callback);
   }
 
   /**
@@ -177,12 +182,13 @@ class RcLeaderBoard {
     options = options || {};
     let group = options.group || 'default',
       period = options.period || 'alltime',
-      attrName = options.attrName || null;
+      attrName = options.attrName || null,
+      scoreType = options.scoreType || 'best';
     if (!userId || !attrName) {
       callback('params error.');
       return;
     }
-    this.lb.getRank(group, period, userId, attrName, callback);
+    this.lb.getRank(group, period, userId, attrName, scoreType, callback);
   }
 
   flushAll() {

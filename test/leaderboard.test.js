@@ -71,7 +71,7 @@ describe('leaderboard', function () {
    * 获取总榜排名
    */
   it('#getRank() alltime', function (done) {
-    lb.getRank('default', 'alltime', '1', 'cal', (err, rank) => {
+    lb.getRank('default', 'alltime', '1', 'cal', 'best', (err, rank) => {
       assert.equal(2, rank);
       done();
     });
@@ -81,7 +81,7 @@ describe('leaderboard', function () {
    * 获取日榜排名
    */
   it('#getRank() daily', function (done) {
-    lb.getRank('default', 'daily', '1', 'cal', (err, rank) => {
+    lb.getRank('default', 'daily', '1', 'cal', 'best', (err, rank) => {
       assert.equal(2, rank);
       done();
     });
@@ -91,7 +91,7 @@ describe('leaderboard', function () {
    * 获取总排行榜
    */
   it('#getLeaderboard() alltime', function (done) {
-    lb.getLeaderboard('default', 'alltime', 'cal', 0, 10, (err, userIds) => {
+    lb.getLeaderboard('default', 'alltime', 'cal', 'best', 0, 10, (err, userIds) => {
       assert.equal('5', userIds[0]);
       assert.equal('3', userIds[1]);
       assert.equal('1', userIds[2]);
@@ -103,7 +103,7 @@ describe('leaderboard', function () {
    * 获取日排行榜
    */
   it('#getLeaderboard() daily', function (done) {
-    lb.getLeaderboard('default', 'daily', 'cal', 0, 10, (err, userIds) => {
+    lb.getLeaderboard('default', 'daily', 'cal', 'best', 0, 10, (err, userIds) => {
       assert.equal('1', userIds[2]);
       assert.equal('2', userIds[3]);
       assert.equal('4', userIds[4]);
@@ -116,7 +116,7 @@ describe('leaderboard', function () {
    */
   it('#clearPeriodLeaderboard() leaderboard', function (done) {
     lb.clearPeriodLeaderBoard('default', 'daily', (err, res) => {
-      lb.getRank('default', 'daily', '1', 'cal', (err, rank) => {
+      lb.getRank('default', 'daily', '1', 'cal', 'best', (err, rank) => {
         assert.equal(null, rank);
         done();
       });
@@ -167,17 +167,21 @@ describe('leaderboard', function () {
    * 清除周期性数据测试
    */
   it('#clearPeriodLeaderboard() highScore', function (done) {
+    this.timeout(4000);
+    setTimeout(done, 3000);
     lb.getUserBestScore('default', 'daily', '1', 'cal', (err, bestScore) => {
       assert.equal(30, bestScore);
+    });
+    lb.getUserTotalScore('default', 'daily', '1', 'cal', (err, totalScore) => {
+      assert.equal(30, totalScore);
     });
     lb.clearPeriodLeaderBoard('default', 'daily', (err, res) => {
       lb.getUserBestScore('default', 'daily', '1', 'cal', (err, bestScore) => {
         assert.equal(null, bestScore);
       });
-      lb.getUserTotalScore('default', 'daily', '1', 'cal', (err, bestScore) => {
-        assert.equal(null, bestScore);
+      lb.getUserTotalScore('default', 'daily', '1', 'cal', (err, totalScore) => {
+        assert.equal(null, totalScore);
       });
-      done();
     });
   });
 
