@@ -70,7 +70,7 @@ class RcLeaderBoard {
     }
 
     if (yearly) {
-      this.yearlyTask = this.clearPeriodLeaderBoard.call(this, ' 0 0 1 1 *', group, 'yearly');
+      this.yearlyTask = this.clearPeriodLeaderBoard.call(this, '0 0 1 1 *', group, 'yearly');
       this.lb.activePeriod('yearly');
     }
   }

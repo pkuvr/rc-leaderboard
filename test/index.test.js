@@ -12,7 +12,13 @@ describe('index', function () {
     setTimeout(done, 2500);
     lb.flushAll();
 
-    lb.activePeriods({daily: true});
+    lb.activePeriods({
+      group: 'default',
+      daily: true,
+      weekly: true,
+      monthly: true,
+      yearly: true
+    });
 
     lb.add({
       userId: 1,
