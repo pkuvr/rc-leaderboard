@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/jianzi0307/rc-leaderboard.svg?branch=master)](https://travis-ci.com/jianzi0307/rc-leaderboard)
+
 # rc-leaderboard
 
 rc-leaderboard 是一个轻量级的nodejs排行榜模块。
