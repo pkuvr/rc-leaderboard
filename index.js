@@ -4,8 +4,7 @@ const LeaderBoard = require('./lib/leaderboard');
 const cron = require('node-cron');
 
 class RcLeaderBoard {
-  constructor(host, port, options) {
-    options = options || null;
+  constructor(host, port, options = null) {
     this.lb = new LeaderBoard();
     this.lb.createClient(host, port, options);
 
@@ -32,7 +31,7 @@ class RcLeaderBoard {
    * @param entity
    * @param options
    */
-  add(entity, options) {
+  add(entity, options = {}) {
     entity = entity || {};
     if (!entity.userId || !entity.attrName) {
       console.log('parameter error.');
@@ -42,13 +41,11 @@ class RcLeaderBoard {
     entity.score = entity.score || 0;
     entity.extra = entity.extra || '';
 
-    options = options || {};
     options.group = options.group || 'default';
     this.lb.add(entity, options);
   }
 
-  activePeriods(options) {
-    options = options || {};
+  activePeriods(options = {}) {
     let group = options.group || 'default',
       daily = options.daily || false,
       weekly = options.weekly || false,
@@ -80,8 +77,7 @@ class RcLeaderBoard {
    * @param callback
    * @param options
    */
-  getLeaderboard(callback, options) {
-    options = options || {};
+  getLeaderboard(callback, options = {}) {
     let group = options.group || 'default',
       period = options.period || 'alltime',
       attrName = options.attrName || null,
@@ -101,8 +97,7 @@ class RcLeaderBoard {
    * @param callback
    * @param options
    */
-  getTop(top, callback, options) {
-    options = options || {};
+  getTop(top, callback, options = {}) {
     let group = options.group || 'default',
       period = options.period || 'alltime',
       attrName = options.attrName || null,
@@ -120,8 +115,7 @@ class RcLeaderBoard {
    * @param callback
    * @param options
    */
-  getAroundUserLeaderboard(userId, callback, options) {
-    options = options || {};
+  getAroundUserLeaderboard(userId, callback, options = {}) {
     let group = options.group || 'default',
       period = options.period || 'alltime',
       attrName = options.attrName || null,
@@ -141,8 +135,7 @@ class RcLeaderBoard {
    * @param options
    * @param filterOptions
    */
-  getBestScore(userId, callback, options, filterOptions) {
-    options = options || {};
+  getBestScore(userId, callback, options = {}, filterOptions) {
     let group = options.group || 'default',
       period = options.period || 'alltime',
       attrName = options.attrName || null;
@@ -159,8 +152,7 @@ class RcLeaderBoard {
    * @param callback
    * @param options
    */
-  getTotalScore(userId, callback, options) {
-    options = options || {};
+  getTotalScore(userId, callback, options = {}) {
     let group = options.group || 'default',
       period = options.period || 'alltime',
       attrName = options.attrName || null;
@@ -178,8 +170,7 @@ class RcLeaderBoard {
    * @param callback
    * @param options
    */
-  getRank(userId, callback, options) {
-    options = options || {};
+  getRank(userId, callback, options = {}) {
     let group = options.group || 'default',
       period = options.period || 'alltime',
       attrName = options.attrName || null,
@@ -195,8 +186,7 @@ class RcLeaderBoard {
     this.lb.flushAll();
   }
 
-  removeLeaderboards(options) {
-    options = options || {};
+  removeLeaderboards(options = {}) {
     let
       group = options.group || 'default',
       daily = options.daily || false,

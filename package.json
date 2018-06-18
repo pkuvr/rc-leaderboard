@@ -1,6 +1,6 @@
 {
   "name": "rc-leaderboard",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "rc-leaderboard is a light weight leaderboard backed by redis for node.js.",
   "main": "index.js",
   "scripts": {
