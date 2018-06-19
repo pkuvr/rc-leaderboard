@@ -3,8 +3,8 @@ node_js:
   - '8.9.0'
 install:
   - npm install
-services:
-  - redis-server
+before_scirpt:
+  - sudo redis-server /etc/redis/redis.conf --port 63790
 script:
   - npm run test
 branches:

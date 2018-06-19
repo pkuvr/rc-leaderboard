@@ -7,7 +7,7 @@ let expect = chai.expect;
 
 describe('leaderboard', function () {
   let lb = new leaderboard();
-  lb.createClient('127.0.0.1', 6379);
+  lb.createClient('127.0.0.1', 63790);
 
   beforeEach(function (done) {
     this.timeout(3000);
