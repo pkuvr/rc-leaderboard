@@ -4,7 +4,8 @@ const LeaderBoard = require('./lib/leaderboard');
 const cron = require('node-cron');
 
 class RcLeaderBoard {
-  constructor(host, port, options = null) {
+  constructor(host, port, options) {
+    options = options || {};
     this.lb = new LeaderBoard();
     this.lb.createClient(host, port, options);
 
